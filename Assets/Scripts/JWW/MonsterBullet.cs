@@ -17,17 +17,31 @@ public class MonsterBullet : MonoBehaviour
 
     public LayerMask targetMask;
     private Rigidbody2D _rigidbody;
+    public string bulletPrefabPath = "Monsters/MonsterBullet";
+    public float destroyTime = 3.5f;
+    private float lifeTime = 0f;
 
     private void Awake()
     {
         player = GameObject.FindWithTag("Player").transform;
         _rigidbody = GetComponent<Rigidbody2D>();
     }
-    void Start()
+    private void OnEnable()
     {
-        Destroy(gameObject, 3.5f);//5초후 삭제
+        lifeTime = 0f;
+        StartCoroutine(BulletDestroy(destroyTime));
     }
-
+    IEnumerator BulletDestroy(float timeLimit)
+    {
+        while (lifeTime < timeLimit)
+        {
+            lifeTime += Time.deltaTime;
+            yield return null;
+        }
+        if(gameObject != null)
+            Managers.RM.Destroy(gameObject);//5초후 삭제
+        yield return null;
+    }
     void Update()
     {
         _rigidbody.velocity = transform.right * speed;
@@ -73,14 +87,17 @@ public class MonsterBullet : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             Vector3 spreadDirection = Quaternion.Euler(0f, 0f, i * 36f) * initialDirection; // 360도를 10등분하여 각도 계산
-            GameObject bullet = Instantiate(gameObject, centerPoint, Quaternion.identity); // 새로운 총알 생성
+            //GameObject bullet = Instantiate(gameObject, centerPoint, Quaternion.identity); // 새로운 총알 생성
+            GameObject bullet = Managers.RM.Instantiate(bulletPrefabPath);
+            bullet.transform.position = centerPoint;
+            bullet.transform.rotation = Quaternion.identity;
             MonsterBullet newBullet = bullet.GetComponent<MonsterBullet>();
             newBullet.transform.right = spreadDirection;
             yield return null;
         }
 
         // 모든 총알이 생성된 후, 원래 총알은 제거
-        Destroy(gameObject);
+        Managers.RM.Destroy(gameObject);
     }
     public void SpreadBulletInOnePoint()//탄 퍼짐 코루틴 호출
     {
@@ -95,12 +112,12 @@ public class MonsterBullet : MonoBehaviour
         // Level 레이어와 충돌할 경우 제거
         if (other.gameObject.layer == LayerMask.NameToLayer("Level"))
         {
-            Destroy(gameObject);
+            Managers.RM.Destroy(gameObject);
         }
         if (other.CompareTag("Player"))
         {
             Managers.Player.GetDamaged();
-            Destroy(gameObject);
+            Managers.RM.Destroy(gameObject);
         }
     }
 }

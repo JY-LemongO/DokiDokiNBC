@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7319108262126650427, guid: 36479a0ad9ac1c14ebded91378e47c8c, type: 3}
+  bulletPrefabPath: Monsters/MonsterBullet
   firePoint: {fileID: 1008706240104965605}
   deathClip: {fileID: 8300000, guid: dfb022c7500236346a810d434a9696ba, type: 3}
   attackClip: {fileID: 8300000, guid: 38c9b60058913fb48ae5e7a905fcdff9, type: 3}
@@ -380,7 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
-    maxHealth: 5
+    maxHealth: 100
     atk: 1
     fireRate: 0
     moveSpeed: 5

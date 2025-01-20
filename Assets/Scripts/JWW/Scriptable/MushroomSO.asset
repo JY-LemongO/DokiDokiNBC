@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a067b7aefcb2a540af7665382a00cef, type: 3}
-  m_Name: Enemy3SO
+  m_Name: MushroomSO
   m_EditorClassIdentifier: 
-  monsterNumber: 1
   power: 5
   delay: 1
   skillPower: 10

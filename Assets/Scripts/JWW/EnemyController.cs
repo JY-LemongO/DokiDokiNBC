@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public float attackDelay;
     public EnemySO enemySO;
     public bool isDead = false;
+    public bool isContect = false;
 
     [SerializeField] public string targetTag = "Player"; //공격 대상의 태그
     protected virtual void Awake()

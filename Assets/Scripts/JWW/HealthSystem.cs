@@ -66,13 +66,8 @@ public class HealthSystem : MonoBehaviour
 
         if (CurrentHealth <= 0f)
         {
-            CallDeath();
+            OnDeath?.Invoke();
         }
         return true;
-    }
-
-    private void CallDeath()
-    {
-        OnDeath?.Invoke();
     }
 }

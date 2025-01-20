@@ -3,21 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static Enemy1;
 
-public class Enemy1 : EnemyController
+public class RegularEnemy : EnemyController
 {
-    public enum MonsterNumber
+    public enum MonsterSpecies
     {
-        Enmemy1,
-        Enmemy3
+        Mushroom,
+        Darkness
     }
-    public MonsterNumber monsterNumber;
+    public MonsterSpecies monsterSpecies;
     private Rigidbody2D _rigidbody;
     private Vector2 _movementDirection = Vector2.zero;
     public CharacterStatsHandler characterStatsHandler;
-    private Collider2D _collider;
-    public bool isContect = false;
 
     public AudioClip attackClip;
     public AudioClip deathClip;
@@ -25,7 +22,7 @@ public class Enemy1 : EnemyController
     protected override void Awake()
     {
         base.Awake();
-        monsterNumber = enemySO.monsterNumber;
+        monsterSpecies = enemySO.monsterSpecies;
         characterStatsHandler = GetComponent<CharacterStatsHandler>();
         _rigidbody = GetComponent<Rigidbody2D>();
     }
@@ -68,11 +65,11 @@ public class Enemy1 : EnemyController
         if (direction != Vector2.zero)//
         {
             int num = 1;
-            if (monsterNumber == MonsterNumber.Enmemy1)
+            if (monsterSpecies == MonsterSpecies.Darkness)
             {
                 num = direction.x < 0 ? 1 : -1;
             }
-            else if (monsterNumber == MonsterNumber.Enmemy3)
+            else if (monsterSpecies == MonsterSpecies.Mushroom)
             {
                 num = direction.x < 0 ? -1 : 1;
             }

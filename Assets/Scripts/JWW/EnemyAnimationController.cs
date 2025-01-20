@@ -11,14 +11,10 @@ public class EnemyAnimationController : EnemyAnimation
     private static readonly int isHit = Animator.StringToHash("Hit"); //파라미터를 해시로 변환
 
     private HealthSystem healthSystem;
-    private Rigidbody2D _rigidbody;
-    private Enemy1 _enemy;
     protected override void Awake()
     {
         base.Awake();
         healthSystem = GetComponent<HealthSystem>();
-        _rigidbody = GetComponentInParent<Rigidbody2D>();
-        _enemy = GetComponent<Enemy1>();
     }
     private void Start()
     {
@@ -47,7 +43,7 @@ public class EnemyAnimationController : EnemyAnimation
     }
     private void Dead()
     {
-        _enemy.isDead = true;
+        enemyController.isDead = true;
         foreach (Collider2D component in transform.GetComponentsInChildren<Collider2D>())
         {
             component.enabled = false;
@@ -55,12 +51,4 @@ public class EnemyAnimationController : EnemyAnimation
         animator.SetTrigger(isDead);
         Destroy(gameObject,4f);
     }
-    //public void Disappear()
-    //{
-    //    foreach (Behaviour component in transform.GetComponentsInChildren<Behaviour>())
-    //    {
-    //        component.enabled = false;
-    //    }
-    //    Destroy(transform.gameObject);
-    //}
 }

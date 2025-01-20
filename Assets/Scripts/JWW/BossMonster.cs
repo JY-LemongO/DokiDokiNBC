@@ -9,6 +9,7 @@ public class BossMonster : MonoBehaviour
     private static readonly int die = Animator.StringToHash("Die"); //파라미터를 해시로 변환
 
     public GameObject bulletPrefab;//불릿
+    public string bulletPrefabPath = "Monsters/MonsterBullet";
     public Transform firePoint;//발사 트랜스폼
     private Transform target;//플레이어의 트랜스폼
     private Rigidbody2D _rigidbody2D;
@@ -150,49 +151,64 @@ public class BossMonster : MonoBehaviour
         }
     }
 
-    void FireStraight()
+    void FireStraight()//직선으로 하나 공격
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bullet = Managers.RM.Instantiate(bulletPrefabPath);
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
         MonsterBullet newbullt = bullet.GetComponent<MonsterBullet>();
         newbullt.speed = bulletSpeed;
     }
 
-    void FireSpread()
+    void FireSpread()//바라보는 방향으로 5개 뿌리기
     {
         for (int i = -2; i <= 2; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0f, 0f, i * 15f));
+            //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0f, 0f, i * 15f));
+            GameObject bullet = Managers.RM.Instantiate(bulletPrefabPath);
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = firePoint.rotation * Quaternion.Euler(0f, 0f, i * 15f);
             MonsterBullet newbullt = bullet.GetComponent<MonsterBullet>();
             newbullt.speed = bulletSpeed;
         }
     }
 
-    void FireCircle()
+    void FireCircle()//자신을 중심으로 원형으로 뻗어나가는 공격
     {
         for (int i = 0; i < 360; i += 20)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.Euler(0f, 0f, i));
+            //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.Euler(0f, 0f, i));
+            GameObject bullet = Managers.RM.Instantiate(bulletPrefabPath);
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = Quaternion.Euler(0f, 0f, i);
             MonsterBullet newbullt = bullet.GetComponent<MonsterBullet>();
             newbullt.speed = bulletSpeed;
         }
     }
-    void FireDiverge()
+    void FireDiverge()//두개를 던지고 잠시후 원으로 퍼지는 공격
     {
         for (int i = -1; i <= 0; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0f, 0f, i * 30f + 15f));
+            //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0f, 0f, i * 30f + 15f));
+            GameObject bullet = Managers.RM.Instantiate(bulletPrefabPath);
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = firePoint.rotation * Quaternion.Euler(0f, 0f, i * 30f + 15f);
             MonsterBullet newbullt = bullet.GetComponent<MonsterBullet>();
             newbullt.speed = bulletSpeed;
             newbullt.SpreadBulletInOnePoint();
         }
     }
 
-    void FireRandomDirection()
+    void FireRandomDirection()//5개 공격을 뿌리고 적을 추적하는 공격
     {
         for (int i = 0; i < 5; i++)
         {
             float randomAngle = Random.Range(0f, 360f);
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.Euler(0f, 0f, randomAngle));
+            //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.Euler(0f, 0f, randomAngle));
+            GameObject bullet = Managers.RM.Instantiate(bulletPrefabPath);
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = Quaternion.Euler(0f, 0f, randomAngle);
             MonsterBullet newbullt = bullet.GetComponent<MonsterBullet>();
             newbullt.speed = bulletSpeed;
             newbullt.TrackingBullet();
